@@ -1,0 +1,23 @@
+version: '2'
+
+networks:
+  vpcboot:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 14.5.0.0/16
+         gateway: 14.5.0.1
+
+services:
+    db:
+        image: mysql:5.6
+        ports:
+            - 3306:3306
+        volumes:
+            - ./mysql_init:/docker-entrypoint-initdb.d
+            - "./.data/db:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: local
+        networks:
+            vpcboot:
+                ipv4_address: 14.5.0.5
