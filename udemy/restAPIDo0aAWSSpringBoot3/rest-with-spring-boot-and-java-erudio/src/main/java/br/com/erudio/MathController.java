@@ -25,7 +25,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return math.sum(NumberConverter.convertToDouble(numberOne) + NumberConverter.convertToDouble(numberTwo));
+		return math.sum(NumberConverter.convertToDouble(numberOne),NumberConverter.convertToDouble(numberTwo));
 	}
 	
 	@RequestMapping(value =  "/subtraction/{numberOne}/{numberTwo}", method=RequestMethod.GET)
@@ -35,7 +35,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return NumberConverter.convertToDouble(numberOne) - NumberConverter.convertToDouble(numberTwo);
+		return math.subtraction(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo) );
 	}
 
 	
@@ -46,7 +46,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return NumberConverter.convertToDouble(numberOne) * NumberConverter.convertToDouble(numberTwo);
+		return math.multiplication(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo) );
 	}
 
 	
@@ -57,7 +57,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return NumberConverter.convertToDouble(numberOne) / NumberConverter.convertToDouble(numberTwo);
+		return math.division(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
 	}
 
 	
@@ -68,7 +68,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return (NumberConverter.convertToDouble(numberOne) + NumberConverter.convertToDouble(numberTwo)) /2;
+		return math.mean(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo) ) ;
 	}
 	
 	@RequestMapping(value =  "/squareRoot/{number}", method=RequestMethod.GET)
@@ -78,7 +78,7 @@ public class MathController {
 			throw new UnsupportedMathOperationException("Please set a numeric value");
 		}
 		
-		return Math.sqrt( NumberConverter.convertToDouble(number) );
+		return math.squareRoot(NumberConverter.convertToDouble(number) );
 	}
 
 
