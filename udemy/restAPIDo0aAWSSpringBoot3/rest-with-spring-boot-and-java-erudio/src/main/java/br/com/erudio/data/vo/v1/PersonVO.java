@@ -3,20 +3,20 @@ package br.com.erudio.data.vo.v1;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+//@JsonPropertyOrder({"id", "address", "first_name", "lastName",  "gender"})
 public class PersonVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private Long id;
+	//@JsonProperty("first_name")
 	private String firstName;
 	private String lastName;
 	private String address;
+	//@JsonIgnore
 	private String gender;
 	
 	public Long getId() {
