@@ -10,7 +10,7 @@ import br.com.erudio.configs.TestConfigs;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class SwaggerIntegrationTest extends AbstractIntegrationTest {
+public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
 	@Test
 	public void shoudlDisplaySwaggerUiPage() {

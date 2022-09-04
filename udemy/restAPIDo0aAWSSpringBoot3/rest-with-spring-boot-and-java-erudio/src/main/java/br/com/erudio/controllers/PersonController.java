@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing people")
@@ -50,13 +52,14 @@ public class PersonController {
 		return service.findAll();
 	}
 	
+	@CrossOrigin(origins = "http://localhost:8080")
 	@GetMapping(value = "/{id}",
 		 produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-	@Operation(summary = "Finds a people", description = "Finds a People", tags = {"People"},
+	@Operation(summary = "Finds a Person", description = "Finds a Person", tags = {"People"},
 	responses = {
 			@ApiResponse(description = "Success", responseCode = "200",
 					content = {
-							@Content(schema = @Schema( implementation = PersonVO.class))
+							@Content(schema = @Schema(implementation = PersonVO.class))
 					}),
 			@ApiResponse(description = "No Content", responseCode = "204", content = @Content),
 			@ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -68,6 +71,7 @@ public class PersonController {
 		return service.findById(id);
 	}
 	
+	@CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"} )
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
 			produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
 	@Operation(summary = "Adds a new Person by passing a JSON, XML or YAML", description = "Adds a new Person by passing a JSON, XML or YAML", tags = {"People"},
