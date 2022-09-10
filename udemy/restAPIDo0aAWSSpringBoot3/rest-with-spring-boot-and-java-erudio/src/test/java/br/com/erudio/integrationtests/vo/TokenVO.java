@@ -1,9 +1,12 @@
-package br.com.erudio.data.vo.v1.security;
+package br.com.erudio.integrationtests.vo;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class TokenVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
