@@ -32,6 +32,9 @@ public class Person implements Serializable{
 	@Column(nullable = false, length = 6)
 	private String gender;
 	
+	@Column(nullable = false)
+	private Boolean enabled;
+	
 	public Long getId() {
 		return id;
 	}
@@ -78,7 +81,7 @@ public class Person implements Serializable{
 		Person other = (Person) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(gender, other.gender) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName);
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(enabled, other.enabled);
 	}
 	
 	

@@ -15,6 +15,14 @@ public class PersonVO implements Serializable{
 	private String lastName;
 	private String address;
 	private String gender;
+	private Boolean enabled;
+	
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 	
 	public Long getId() {
 		return id;
@@ -62,7 +70,8 @@ public class PersonVO implements Serializable{
 		PersonVO other = (PersonVO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(gender, other.gender) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName);
+				&& Objects.equals(lastName, other.lastName)
+				&& Objects.equals(enabled, other.enabled);
 	}
 
 }

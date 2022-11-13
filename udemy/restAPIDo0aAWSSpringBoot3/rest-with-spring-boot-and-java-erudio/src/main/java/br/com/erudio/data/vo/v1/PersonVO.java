@@ -3,6 +3,8 @@ package br.com.erudio.data.vo.v1;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
+
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +26,7 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
 	private String address;
 	//@JsonIgnore
 	private String gender;
+	private Boolean enabled;
 	
 	public Long getKey() {
 		return key;
@@ -71,7 +74,14 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
 		PersonVO other = (PersonVO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(gender, other.gender) && Objects.equals(key, other.key)
-				&& Objects.equals(lastName, other.lastName);
+				&& Objects.equals(lastName, other.lastName)
+				&& Objects.equals(enabled, other.enabled);
+	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }
