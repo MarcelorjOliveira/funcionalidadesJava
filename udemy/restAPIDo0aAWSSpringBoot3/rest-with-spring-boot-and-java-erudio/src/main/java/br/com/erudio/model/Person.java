@@ -65,6 +65,12 @@ public class Person implements Serializable{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -81,9 +87,7 @@ public class Person implements Serializable{
 		Person other = (Person) obj;
 		return Objects.equals(address, other.address) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(gender, other.gender) && Objects.equals(id, other.id)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(enabled, other.enabled);
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(getEnabled(), other.getEnabled());
 	}
 	
-	
-
 }
