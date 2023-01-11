@@ -23,7 +23,9 @@ import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.integrationtests.controller.withyaml.mapper.YMLMapper;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
+import br.com.erudio.integrationtests.vo.PagedModelPerson;
 import br.com.erudio.integrationtests.vo.PersonVO;
+import br.com.erudio.integrationtests.vo.wrappers.WrapperPersonVO;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -213,24 +215,25 @@ public class PersonControllerYMLTest extends AbstractIntegrationTest {
 	@Order(5)
 	public void testFindAll() throws JsonMappingException, JsonProcessingException {
 
-		var content = 
+		var wrapper = 
 		given().spec(specification)
 		.config(RestAssuredConfig.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YML, ContentType.TEXT)))
 
 			.contentType(TestConfigs.CONTENT_TYPE_YML)
 			.accept(TestConfigs.CONTENT_TYPE_YML)
+			.queryParams("page" ,3, "size" , 10, "direction", "asc")
 				.when()
 				.get()
 			.then()
 				.statusCode(200)
 			.extract()
 				.body()
-				.as(PersonVO[].class, objectMapper);
+				.as(PagedModelPerson.class, objectMapper);
 					//.as(new TypeRef<List<PersonVO>>() {} );
 		
 		//List<PersonVO> people = objectMapper.readValue(content, new TypeReference<List<PersonVO>>() {} );
-		List<PersonVO> people = Arrays.asList(content);
-		
+		var people = wrapper.getContent();
+				
 		PersonVO foundPersonOne = people.get(0);
 		
 		assertNotNull(foundPersonOne.getId());
@@ -239,11 +242,11 @@ public class PersonControllerYMLTest extends AbstractIntegrationTest {
 		assertNotNull(foundPersonOne.getAddress());
 		assertNotNull(foundPersonOne.getGender());	
 		
-		assertEquals(1, foundPersonOne.getId() );
+		assertEquals(319, foundPersonOne.getId() );
 		
-		assertEquals("Ayrton", foundPersonOne.getFirstName());
-		assertEquals("Senna", foundPersonOne.getLastName());
-		assertEquals("São Paulo", foundPersonOne.getAddress());
+		assertEquals("Ali", foundPersonOne.getFirstName());
+		assertEquals("A'field", foundPersonOne.getLastName());
+		assertEquals("5 Straubel Avenue", foundPersonOne.getAddress());
 		assertEquals("Male", foundPersonOne.getGender());
 
 		PersonVO findPersonSix = people.get(5);
@@ -254,10 +257,11 @@ public class PersonControllerYMLTest extends AbstractIntegrationTest {
 		assertNotNull(findPersonSix.getAddress());
 		assertNotNull(findPersonSix.getGender());	
 		
-		assertEquals(9, findPersonSix.getId() );
+		assertEquals(431, findPersonSix.getId() );
 		
-		assertEquals("Nelson", findPersonSix.getFirstName());
-		assertEquals("Mvezo", findPersonSix.getLastName());
+		assertEquals("Alistair", findPersonSix.getFirstName());
+		assertEquals("Wilson", findPersonSix.getLastName());
+		assertEquals("485 Hudson Lane", findPersonSix.getAddress());
 		assertEquals("Male", findPersonSix.getGender());
 
 	}

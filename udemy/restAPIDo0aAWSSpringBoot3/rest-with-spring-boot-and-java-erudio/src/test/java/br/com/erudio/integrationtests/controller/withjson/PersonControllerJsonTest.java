@@ -26,6 +26,7 @@ import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import br.com.erudio.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.integrationtests.vo.PersonVO;
+import br.com.erudio.integrationtests.vo.wrappers.WrapperPersonVO;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -235,13 +236,15 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	
 	@Test
 	@Order(6)
-	public void testFindAll() throws JsonMappingException, JsonProcessingException {
+	public void testFindByName() throws JsonMappingException, JsonProcessingException {
 
 		var content = 
 		given().spec(specification)
 			.contentType(TestConfigs.CONTENT_TYPE_JSON)
+			.pathParam("firstName", "ayr")
+			.queryParams("page" ,0, "size" , 6, "direction", "asc")
 				.when()
-				.get()
+				.get("findPersonByName/{firstName}")
 			.then()
 				.statusCode(200)
 			.extract()
@@ -249,7 +252,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.asString();
 					//.as(new TypeRef<List<PersonVO>>() {} );
 		
-		List<PersonVO> people = objectMapper.readValue(content, new TypeReference<List<PersonVO>>() {} );
+		WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class );
+		var people = wrapper.getEmbedded().getPersons();
 		
 		PersonVO foundPersonOne = people.get(0);
 		
@@ -266,6 +270,45 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertEquals("São Paulo", foundPersonOne.getAddress());
 		assertEquals("Male", foundPersonOne.getGender());
 
+		assertTrue(foundPersonOne.getEnabled());
+	}
+
+	
+	@Test
+	@Order(6)
+	public void testFindAll() throws JsonMappingException, JsonProcessingException {
+
+		var content = 
+		given().spec(specification)
+			.contentType(TestConfigs.CONTENT_TYPE_JSON)
+			.queryParams("page" ,3, "size" , 10, "direction", "asc")
+				.when()
+				.get()
+			.then()
+				.statusCode(200)
+			.extract()
+				.body()
+					.asString();
+					//.as(new TypeRef<List<PersonVO>>() {} );
+		
+		WrapperPersonVO wrapper = objectMapper.readValue(content, WrapperPersonVO.class );
+		var people = wrapper.getEmbedded().getPersons();
+		
+		PersonVO foundPersonOne = people.get(0);
+		
+		assertNotNull(foundPersonOne.getId());
+		assertNotNull(foundPersonOne.getFirstName());
+		assertNotNull(foundPersonOne.getLastName());
+		assertNotNull(foundPersonOne.getAddress());
+		assertNotNull(foundPersonOne.getGender());	
+		
+		assertEquals(319, foundPersonOne.getId() );
+		
+		assertEquals("Ali", foundPersonOne.getFirstName());
+		assertEquals("A'field", foundPersonOne.getLastName());
+		assertEquals("5 Straubel Avenue", foundPersonOne.getAddress());
+		assertEquals("Male", foundPersonOne.getGender());
+
 		PersonVO findPersonSix = people.get(5);
 		
 		assertNotNull(findPersonSix.getId());
@@ -274,10 +317,11 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(findPersonSix.getAddress());
 		assertNotNull(findPersonSix.getGender());	
 		
-		assertEquals(9, findPersonSix.getId() );
+		assertEquals(431, findPersonSix.getId() );
 		
-		assertEquals("Nelson", findPersonSix.getFirstName());
-		assertEquals("Mvezo", findPersonSix.getLastName());
+		assertEquals("Alistair", findPersonSix.getFirstName());
+		assertEquals("Wilson", findPersonSix.getLastName());
+		assertEquals("485 Hudson Lane", findPersonSix.getAddress());
 		assertEquals("Male", findPersonSix.getGender());
 
 	}
